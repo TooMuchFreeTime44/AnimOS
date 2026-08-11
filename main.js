@@ -4,5 +4,15 @@ function setup() {
 
 function draw() {
     background(255);
-    circle(mouseX, mouseY, 20);
+    if (mouseIsPressed && mouseX < windowWidth / 6) {
+        circle(mouseX, windowHeight / 4, 20);
+    }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+function touchMoved() {
+    return false;
 }
