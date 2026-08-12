@@ -17,9 +17,9 @@ function draw() {
         if (deltaX < 0) deltaX = 0;
         if (deltaX < width / 4) {
             strokeWeight(0);
-            let slidingAlpha = deltaX * 255 / (width / 4);
-            if (slidingAlpha > 255) slidingAlpha = 255;
-            fill(4, 156, 0, slidingAlpha);
+            let slidingVar = (deltaX / (width / 4)) * (deltaX / (width / 4));
+            if (slidingVar > 1) slidingVar = 1;
+            fill(4, 156, 0, slidingVar * 255);
             circle(deltaX, height / 3, 40);
         }
         if (deltaX >= width / 4) {
