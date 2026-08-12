@@ -1,6 +1,6 @@
 function drawArrow(t, f) {
     push();
-    translate(t * width / f, height / 3);
+    translate(t * width / f - 4, height / 3);
     fill(60, 255, 140, t * 160);
     beginShape();
     vertex(-13, 0);
@@ -28,21 +28,22 @@ function draw() {
         canGoBack = false;
     }
     if (isGoingBack) {
+        let f = 15; // the end of the animation is at width / f
+        let rectW = width / (f / 2);
         let deltaX = mouseX - pastPosX;
         if (deltaX < 0) deltaX = 0;
-        let f = 10; // the end of the animation is at width / f
         if (deltaX < width / f) {
             strokeWeight(0);
             let t = (deltaX / (width / f)) * (deltaX / (width / f));
             if (t > 1) t = 1;
             fill(4, 156, 0, t * 255);
-            rect(t * width / f - 25, height / 3 - 20, 49, 40, 14);
+            rect(t * width / f - rectW / 2 - 4, height / 3 - 20, rectW, 40, 14);
             drawArrow(t, f);
         }
         if (deltaX >= width / f) {
             strokeWeight(0);
             fill(4, 156, 0, 255);
-            rect(width / f - 25, height / 3 - 20, 49, 40, 14);
+            rect(width / f - rectW / 2 - 4, height / 3 - 20, rectW, 40, 14);
             drawArrow(1, f);
         }
     }
