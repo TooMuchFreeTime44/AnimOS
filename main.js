@@ -3,12 +3,12 @@ function drawArrow(t, f) {
     translate(t * width / f, height / 3);
     fill(60, 255, 140, t * 160);
     beginShape();
-    vertex(-11, 0);
-    vertex(5, 10);
-    vertex(7, 7);
-    vertex(-3, 0);
-    vertex(7, -7);
-    vertex(5, -10);
+    vertex(-13, 0);
+    vertex(8, 11);
+    vertex(10, 8);
+    vertex(-6, 0);
+    vertex(10, -8);
+    vertex(8, -11);
     endShape();
     pop();
 }
@@ -36,13 +36,13 @@ function draw() {
             let t = (deltaX / (width / f)) * (deltaX / (width / f));
             if (t > 1) t = 1;
             fill(4, 156, 0, t * 255);
-            circle(t * width / f, height / 3, 40);
+            rect(t * width / f - 25, height / 3 - 20, 49, 40, 14);
             drawArrow(t, f);
         }
         if (deltaX >= width / f) {
             strokeWeight(0);
             fill(4, 156, 0, 255);
-            circle(width / f, height / 3, 40);
+            rect(width / f - 25, height / 3 - 20, 49, 40, 14);
             drawArrow(1, f);
         }
     }
