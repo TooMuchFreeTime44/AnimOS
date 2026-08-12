@@ -8,20 +8,6 @@ function setup() {
 
 function draw() {
     background(255);
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
-
-function touchStarted() {
-    if (mouseX < width / 8 && mouseY > height / 5 && mouseY < height * 4 / 5) {
-        canGoBack = true;
-        pastPosX = mouseX;
-    } else canGoBack = false;
-}
-
-function touchMoved() {
     if (canGoBack && mouseX > pastPosX) {
         isGoingBack = true;
         canGoBack = false;
@@ -29,14 +15,33 @@ function touchMoved() {
     if (isGoingBack) {
         let deltaX = mouseX - pastPosX;
         if (deltaX < 0) deltaX = 0;
-        if (deltaX < width / 6) {
+        if (deltaX < width / 4) {
             strokeWeight(0);
-            let slidingAlpha = deltaX * 255 / (width / 10);
+            let slidingAlpha = deltaX * 255 / (width / 4);
             if (slidingAlpha > 255) slidingAlpha = 255;
             fill(4, 156, 0, slidingAlpha);
-            circle(deltaX, height / 3, 25);
+            circle(deltaX, height / 3, 40);
+        }
+        if (deltaX >= width / 4) {
+            strokeWeight(0);
+            fill(4, 156, 0, 255);
+            circle(width / 4, height / 3, 40);
         }
     }
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+function touchStarted() {
+    if (mouseX < width / 8) {
+        canGoBack = true;
+        pastPosX = mouseX;
+    } else canGoBack = false;
+}
+
+function touchMoved() {
     return false;
 }
 
