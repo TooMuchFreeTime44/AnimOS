@@ -1,14 +1,37 @@
-function drawArrow(t, f, v, h) {
+class BackPopAnimClass {
+    constructor(startFrame) {
+        this.startFrame = startFrame;
+    }
+
+    show(currFrame) {
+        let frameOffset = currFrame - this.startFrame;
+        if (frameOffset <= 4) {
+            drawBackTab(24 + frameOffset * 24, height / 3, 1.1 - 0.2 * frameOffset / 3, 0.9 + 0.2 * frameOffset / 3, 1);
+        }
+        if (frameOffset > 4 && frameOffset <= 8) {
+            drawBackTab(120 - (frameOffset - 4) * 3, height / 3, 0.833 + 0.167 * (frameOffset - 4) / 4, 1.167 - 0.167 * (frameOffset - 4) / 4, 1);
+        }
+        if (frameOffset > 8) {
+            drawBackTab(108, height / 3, 1, 1, 1);
+        }
+    }
+}
+
+function drawBackTab(x, y, hs, vs, alpha) {
     push();
-    translate(t * width / f - 2, height / 3);
-    fill(60, 255, 140, t * 160);
+    translate(x, y);
+    noStroke();
+    fill(4, 156, 0, alpha * 255);
+    rectMode(CENTER);
+    rect(0, 0, 50 * vs, 40 * hs, 12);
+    fill(60, 255, 140, alpha * 160);
     beginShape();
-    vertex(-13 * h, 0);
-    vertex(8 * h, 11 * v);
-    vertex(10 * h, 8 * v);
-    vertex(-6 * h, 0);
-    vertex(10 * h, -8 * v);
-    vertex(8 * h, -11 * v);
+    vertex(-13 * hs, 0);
+    vertex(8 * hs, 11 * vs);
+    vertex(10 * hs, 8 * vs);
+    vertex(-6 * hs, 0);
+    vertex(10 * hs, -8 * vs);
+    vertex(8 * hs, -11 * vs);
     endShape();
     pop();
 }
@@ -16,45 +39,38 @@ function drawArrow(t, f, v, h) {
 let pastPosX = 0;
 let isGoingBack = false;
 let canGoBack = false;
+let isBackPopAnimTriggered = false;
+let backPopAnim;
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
 }
 
+let frame = 0;
 function draw() {
+    frame++;
     background(255);
     if (canGoBack && mouseX > pastPosX) {
         isGoingBack = true;
         canGoBack = false;
     }
     if (isGoingBack) {
-        let f = 15; // the end of the animation is at width / f
-        let rectW = width / (f / 2);
         let deltaX = mouseX - pastPosX;
         if (deltaX < 0) deltaX = 0;
-        if (deltaX < width / f) {
-            strokeWeight(0);
-            let t = 1 - (1 - (deltaX / (width / f))) ** 2;
-            if (t > 1) t = 1;
-            fill(4, 156, 0, (deltaX / (width / f)) * 255);
-            rect(t * width / f - rectW / 2 - 2, height / 3 - 20, rectW, 40, 14);
-            drawArrow(t, f, 1, 1);
+        if (deltaX < 50) {
+            drawBackTab(deltaX - 28, height / 3, 1, 1, deltaX / 50);
         }
-        if (deltaX >= width / f && deltaX < width / f + 8) {
-            rectMode(CENTER);
-            strokeWeight(0);
-            fill(4, 156, 0, 255);
-            rect(width / f - 2 + (deltaX - width / f) / 4, height / 3, rectW + (deltaX - width / f) / 2, 40 - (deltaX - width / f) / 2, 14);
-            drawArrow(1, f, 1 - (deltaX - width / f) / 80, 1 + (deltaX - width / f) / (2 * rectW));
-            rectMode(CORNER);
+        if (deltaX >= 50 && deltaX < 58) {
+            let offset = deltaX - 50;
+            drawBackTab(22 + offset / 4, height / 3, 1 - offset / 80, 1 + offset / 80, 1);
         }
-        if (deltaX >= width / f + 8) {
-            rectMode(CENTER);
-            strokeWeight(0);
-            fill(4, 156, 0, 255);
-            rect(width / f, height / 3, rectW + 4, 36, 14);
-            drawArrow(1, f, 0.9, 1 + 4 / rectW);
-            rectMode(CORNER);
+        if (deltaX >= 58) {
+            if (!isBackPopAnimTriggered) {
+                backPopAnim = new BackPopAnimClass(frame);
+                isBackPopAnimTriggered = true;
+            } else {
+                backPopAnim.show(frame);
+            }
         }
     }
 }
@@ -77,4 +93,8 @@ function touchMoved() {
 function touchEnded() {
     isGoingBack = false;
     canGoBack = false;
+    if (isBackPopAnimTriggered) {
+        isBackPopAnimTriggered = false;
+        // here is where you would go back
+    }
 }
