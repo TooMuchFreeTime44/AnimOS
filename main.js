@@ -63,6 +63,7 @@ function draw() {
         if (deltaX >= 50 && deltaX < 58) {
             let offset = deltaX - 50;
             drawBackTab(22 + offset / 4, height / 3, 1 - offset / 80, 1 + offset / 80, 1);
+            isBackPopAnimTriggered = false;
         }
         if (deltaX >= 58) {
             if (!isBackPopAnimTriggered) {
