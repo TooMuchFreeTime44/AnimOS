@@ -5,6 +5,10 @@ class BackPopAnimClass {
 
     show(currFrame) {
         let frameOffset = currFrame - this.startFrame;
+        stroke(30, 30, 30, 20);
+        strokeWeight(40);
+        noFill();
+        circle(0, height / 3, frameOffset * 120);
         if (frameOffset <= 4) {
             drawBackTab(24 + frameOffset * 24, height / 3, 1.1 - 0.2 * frameOffset / 3, 0.9 + 0.2 * frameOffset / 3, 1);
         }
