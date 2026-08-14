@@ -28,12 +28,13 @@ class BackPopAnimClass {
 }
 
 function drawBackTab(x, y, hs, vs, alpha) {
+    let rad = (hs + vs) * 6;
     push();
     translate(x, y);
     noStroke();
     fill(4, 156, 0, alpha * 255);
     rectMode(CENTER);
-    rect(0, 0, 50 * vs, 40 * hs, 12);
+    rect(0, 0, 50 * vs, 40 * hs, rad);
     fill(60, 255, 140, alpha * 160);
     beginShape();
     vertex(-13 * hs, 0);
