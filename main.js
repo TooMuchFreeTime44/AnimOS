@@ -28,7 +28,6 @@ class BackPopAnimClass {
 }
 
 function drawBackTab(x, y, hs, vs, alpha) {
-    if (alpha < 0) alpha = 0;
     push();
     translate(x, y);
     noStroke();
@@ -84,6 +83,8 @@ function draw() {
                 backPopAnim.show(frame);
             }
         }
+    } else if (backPopAnim && backPopAnim.fadingOut) {
+        backPopAnim.show(frame);
     }
 }
 
