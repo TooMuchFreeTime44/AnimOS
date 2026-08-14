@@ -1,6 +1,8 @@
 class BackPopAnimClass {
     constructor(startFrame) {
         this.startFrame = startFrame;
+        this.fadingOut = false;
+        this.fadeStartFrame = 0;
     }
 
     show(currFrame) {
@@ -16,12 +18,17 @@ class BackPopAnimClass {
             drawBackTab(120 - (frameOffset - 4) * 3, height / 3, 0.833 + 0.167 * (frameOffset - 4) / 4, 1.167 - 0.167 * (frameOffset - 4) / 4, 1);
         }
         if (frameOffset > 8) {
-            drawBackTab(108, height / 3, 1, 1, 1);
+            if (this.fadingOut) {
+                drawBackTab(108, height / 3, 1 + 0.2 * (currFrame - this.fadeStartFrame), 1 + 0.2 * (currFrame - this.fadeStartFrame), 1 - 0.05 * (currFrame - this.fadeStartFrame))
+            } else {
+                drawBackTab(108, height / 3, 1, 1, 1);
+            }
         }
     }
 }
 
 function drawBackTab(x, y, hs, vs, alpha) {
+    if (alpha < 0) alpha = 0;
     push();
     translate(x, y);
     noStroke();
@@ -100,6 +107,8 @@ function touchEnded() {
     canGoBack = false;
     if (isBackPopAnimTriggered) {
         isBackPopAnimTriggered = false;
+        backPopAnim.fadingOut = true;
+        backPopAnim.fadeStartFrame = frame;
         // here is where you would go back
     }
 }
